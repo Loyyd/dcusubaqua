@@ -63,6 +63,7 @@ const depthGauge = document.querySelector(".depth-gauge");
 const depthGaugeTicks = document.querySelector("#depth-gauge-ticks");
 const depthGaugeValue = document.querySelector("#depth-gauge-value");
 const bubbleStream = document.querySelector("#bubble-stream");
+const diverOverlay = document.querySelector(".diver-overlay");
 
 const randomStarCount = () => Math.floor(Math.random() * 3) + 1;
 
@@ -218,9 +219,13 @@ const setupDepthGauge = () => {
   const syncToScroll = () => {
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+    const rayVisibility = Math.max(0.03, 1 - progress * 1.35);
+    const depthDarkness = Math.min(1, progress * 1.18);
 
     targetDepth = progress * maxDepthMeters;
     targetTilt = -80 + progress * 160;
+    document.documentElement.style.setProperty("--ray-visibility", rayVisibility.toFixed(3));
+    document.documentElement.style.setProperty("--depth-darkness", depthDarkness.toFixed(3));
   };
 
   const updateTicks = (depth) => {
@@ -234,10 +239,16 @@ const setupDepthGauge = () => {
   const animate = () => {
     currentDepth += (targetDepth - currentDepth) * 0.18;
     currentTilt += (targetTilt - currentTilt) * 0.2;
+    const diverProgress = Math.min(1, Math.max(0, (currentDepth - 10) / 4));
+    const diverYProgress = Math.min(1, Math.max(0, (currentDepth - 10) / (maxDepthMeters - 10)));
 
     depthGaugeTicks.style.setProperty("--gauge-tilt", `${currentTilt.toFixed(2)}deg`);
     depthGaugeValue.textContent = `${Math.round(currentDepth)}`;
     updateTicks(currentDepth);
+    if (diverOverlay) {
+      document.documentElement.style.setProperty("--diver-progress", diverProgress.toFixed(3));
+      document.documentElement.style.setProperty("--diver-y-progress", diverYProgress.toFixed(3));
+    }
 
     animationFrame = window.requestAnimationFrame(animate);
   };

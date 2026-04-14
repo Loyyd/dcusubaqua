@@ -1,6 +1,10 @@
 :root {
   --bg: #04111c;
   --bg-soft: rgba(10, 27, 42, 0.9);
+  --ray-visibility: 1;
+  --depth-darkness: 0;
+  --diver-progress: 0;
+  --diver-y-progress: 0;
   --panel: rgba(8, 24, 38, 0.78);
   --panel-strong: rgba(8, 24, 38, 0.94);
   --line: rgba(125, 191, 223, 0.18);
@@ -59,7 +63,7 @@ body::before {
     radial-gradient(circle at 78% 26%, rgba(255, 255, 255, 0.12), transparent 0.35rem),
     radial-gradient(circle at 62% 44%, rgba(255, 255, 255, 0.08), transparent 0.28rem);
   background-size: auto, auto, auto;
-  opacity: 0.55;
+  opacity: calc(0.55 - (var(--depth-darkness) * 0.28));
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.95), transparent 92%);
 }
 
@@ -69,10 +73,37 @@ body::after {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% 8%, rgba(255, 196, 97, 0.44), transparent 18%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 24%),
-    linear-gradient(180deg, transparent 64%, rgba(1, 8, 16, 0.38) 82%, rgba(1, 4, 8, 0.72) 100%);
-  opacity: 0.85;
+    linear-gradient(
+      108deg,
+      transparent 0 38%,
+      rgba(255, 242, 176, calc(0.16 * var(--ray-visibility))) 43%,
+      rgba(201, 241, 255, calc(0.08 * var(--ray-visibility))) 47%,
+      transparent 54%
+    ),
+    linear-gradient(
+      97deg,
+      transparent 0 48%,
+      rgba(255, 232, 146, calc(0.12 * var(--ray-visibility))) 53%,
+      rgba(214, 247, 255, calc(0.07 * var(--ray-visibility))) 57%,
+      transparent 64%
+    ),
+    linear-gradient(
+      86deg,
+      transparent 0 60%,
+      rgba(212, 247, 255, calc(0.08 * var(--ray-visibility))) 68%,
+      transparent 76%
+    ),
+    radial-gradient(circle at 50% 8%, rgba(255, 196, 97, calc(0.44 * var(--ray-visibility))), transparent 18%),
+    linear-gradient(180deg, rgba(255, 255, 255, calc(0.18 * var(--ray-visibility))), transparent 24%),
+    linear-gradient(
+      180deg,
+      rgba(2, 10, 16, calc(var(--depth-darkness) * 0.08)) 0%,
+      rgba(2, 10, 16, calc(var(--depth-darkness) * 0.22)) 28%,
+      rgba(1, 8, 16, calc(0.12 + (var(--depth-darkness) * 0.42))) 58%,
+      rgba(1, 6, 12, calc(0.38 + (var(--depth-darkness) * 0.44))) 82%,
+      rgba(0, 2, 6, calc(0.72 + (var(--depth-darkness) * 0.24))) 100%
+    );
+  opacity: calc(0.85 + (var(--depth-darkness) * 0.15));
 }
 
 a {
@@ -103,6 +134,33 @@ img {
   transform: translateY(-50%);
   pointer-events: none;
   opacity: 0.9;
+}
+
+.swim-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.diver-overlay {
+  position: fixed;
+  top: calc(34vh + (var(--diver-y-progress) * 36vh));
+  right: 3.5vw;
+  z-index: 6;
+  width: clamp(110px, 12vw, 190px);
+  pointer-events: none;
+  opacity: calc(var(--diver-progress) * 0.92);
+  transform: translate3d(calc((1 - var(--diver-progress)) * 22vw), 0, 0);
+  transition: opacity 220ms ease-out;
+}
+
+.diver-figure {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: saturate(0.7) brightness(0.86) contrast(0.94) drop-shadow(0 18px 28px rgba(0, 0, 0, 0.2));
 }
 
 .depth-gauge-shell {
@@ -241,16 +299,30 @@ img {
 }
 
 .ocean-scene {
-  position: fixed;
-  inset: 0;
+  position: relative;
+  height: 100vh;
+  margin-bottom: -100vh;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  background:
+    linear-gradient(
+      180deg,
+      #e8f8ff 0%,
+      #d5f2ff 10%,
+      #b8e8ff 20%,
+      #8bd9f7 31%,
+      #68c7ea 40%,
+      #5fbde1 calc(19.4vh + 188px),
+      #45a8d3 calc(19.4vh + 200px),
+      rgba(32, 131, 182, 0.55) calc(19.4vh + 240px),
+      rgba(11, 74, 113, 0) calc(19.4vh + 420px)
+    );
 }
 
 .sky-haze {
   position: absolute;
-  inset: 0 0 auto;
+  inset: calc(8vh + 200px) 0 auto;
   height: 28vh;
   background:
     linear-gradient(180deg, rgba(245, 253, 255, 0.7), rgba(140, 223, 255, 0.18) 60%, transparent 100%),
@@ -260,7 +332,7 @@ img {
 
 .sun-orb {
   position: absolute;
-  top: 5vh;
+  top: calc(12vh - 100px);
   left: 50%;
   width: clamp(150px, 19vw, 260px);
   aspect-ratio: 1;
@@ -276,7 +348,7 @@ img {
 
 .surface-glow {
   position: absolute;
-  top: 12vh;
+  top: calc(18vh + 200px);
   left: 50%;
   width: min(1400px, 150vw);
   height: 42vh;
@@ -292,7 +364,7 @@ img {
   position: absolute;
   left: -6vw;
   right: -6vw;
-  top: 9.6vh;
+  top: calc(16vh + 200px);
   height: 6.6vh;
   background: linear-gradient(180deg, rgba(48, 84, 70, 0.72), rgba(12, 36, 46, 0.88));
   clip-path: polygon(0 100%, 0 68%, 10% 60%, 18% 52%, 29% 58%, 40% 46%, 53% 56%, 67% 40%, 79% 52%, 90% 44%, 100% 62%, 100% 100%);
@@ -304,7 +376,7 @@ img {
   position: absolute;
   left: 0;
   right: 0;
-  top: 11.1vh;
+  top: calc(19.4vh + 200px);
   height: 3px;
   background: linear-gradient(90deg, transparent, rgba(255, 248, 205, 0.92) 18%, rgba(158, 241, 255, 0.88) 50%, rgba(255, 244, 194, 0.92) 82%, transparent);
   opacity: 0.74;
@@ -321,7 +393,7 @@ img {
 }
 
 .wave-back {
-  top: 10vh;
+  top: calc(18.3vh + 200px);
   height: 3.8vh;
   background-image:
     radial-gradient(55% 120% at 50% 120%, rgba(246, 253, 255, 0.85) 0 44%, transparent 46%),
@@ -331,7 +403,7 @@ img {
 }
 
 .wave-front {
-  top: 10.9vh;
+  top: calc(19.1vh + 200px);
   height: 4.8vh;
   background-image:
     radial-gradient(60% 120% at 50% 120%, rgba(255, 255, 255, 0.9) 0 40%, transparent 42%),
@@ -349,26 +421,30 @@ img {
     linear-gradient(98deg, transparent 0 49%, rgba(255, 227, 137, 0.13) 55%, transparent 62%),
     linear-gradient(86deg, transparent 0 64%, rgba(212, 247, 255, 0.08) 71%, transparent 78%);
   transform: translateY(-3%);
-  opacity: 0.9;
+  opacity: calc(0.9 * var(--ray-visibility));
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0 58%, rgba(0, 0, 0, 0.4) 72%, transparent 100%);
 }
 
 .bubble-field {
   position: absolute;
-  inset: 13vh 0 0;
+  inset: calc(18.8vh + 200px) 0 0;
+  z-index: 1;
   background-image:
-    radial-gradient(circle at 12% 82%, rgba(255, 255, 255, 0.1), transparent 0.24rem),
-    radial-gradient(circle at 24% 70%, rgba(255, 255, 255, 0.08), transparent 0.32rem),
-    radial-gradient(circle at 80% 78%, rgba(255, 255, 255, 0.08), transparent 0.28rem),
-    radial-gradient(circle at 72% 58%, rgba(255, 255, 255, 0.06), transparent 0.3rem),
-    radial-gradient(circle at 40% 88%, rgba(255, 255, 255, 0.08), transparent 0.22rem);
+    radial-gradient(circle at 12% 82%, rgba(255, 255, 255, 0.18), transparent 0.34rem),
+    radial-gradient(circle at 24% 70%, rgba(255, 255, 255, 0.15), transparent 0.42rem),
+    radial-gradient(circle at 80% 78%, rgba(255, 255, 255, 0.14), transparent 0.38rem),
+    radial-gradient(circle at 72% 58%, rgba(255, 255, 255, 0.12), transparent 0.4rem),
+    radial-gradient(circle at 40% 88%, rgba(255, 255, 255, 0.13), transparent 0.3rem),
+    radial-gradient(circle at 58% 66%, rgba(226, 247, 255, 0.12), transparent 0.28rem),
+    radial-gradient(circle at 88% 62%, rgba(218, 244, 255, 0.1), transparent 0.24rem);
   animation: bubbles-rise 26s linear infinite;
-  opacity: 0.65;
+  opacity: 0.95;
 }
 
 .bubble-stream {
   position: absolute;
-  inset: 13vh 0 0;
+  inset: calc(18.8vh + 200px) 0 0;
+  z-index: 2;
   pointer-events: none;
   overflow: hidden;
 }
@@ -386,7 +462,7 @@ img {
     radial-gradient(circle at 50% 50%, rgba(186, 232, 255, 0.2), rgba(186, 232, 255, 0.04) 68%, transparent 74%);
   box-shadow:
     inset 0 0 12px rgba(255, 255, 255, 0.12),
-    0 0 12px rgba(166, 229, 255, 0.12);
+    0 0 14px rgba(166, 229, 255, 0.18);
   opacity: 0;
   animation: scroll-bubble-rise var(--bubble-duration, 4.8s) linear forwards;
 }
@@ -406,6 +482,26 @@ img {
   filter: saturate(0.8) brightness(0.8) contrast(1.05) drop-shadow(0 12px 26px rgba(0, 0, 0, 0.24));
   transform: scaleX(-1);
   animation: shark-image-swim 44s linear infinite;
+}
+
+.fish-brass {
+  top: 60vh;
+  left: 108vw;
+  width: clamp(78px, 8.5vw, 138px);
+  opacity: 0.34;
+  filter: saturate(0.52) brightness(0.74) contrast(0.88) hue-rotate(-10deg) blur(0.35px)
+    drop-shadow(0 8px 14px rgba(0, 0, 0, 0.12));
+  animation: brass-fish-swim 22s linear infinite;
+}
+
+.fish-orange {
+  top: 30vh;
+  left: -18vw;
+  width: clamp(68px, 7.5vw, 120px);
+  opacity: 0.3;
+  filter: saturate(0.5) brightness(0.72) contrast(0.84) hue-rotate(8deg) blur(0.45px)
+    drop-shadow(0 7px 12px rgba(0, 0, 0, 0.1));
+  animation: orange-fish-swim 19s linear infinite;
 }
 
 .shark {
@@ -498,10 +594,6 @@ img {
   place-items: center;
   width: 54px;
   height: 54px;
-  border-radius: 16px;
-  padding: 8px;
-  background: linear-gradient(135deg, rgba(105, 212, 255, 0.14), rgba(146, 255, 213, 0.2));
-  border: 1px solid rgba(146, 255, 213, 0.18);
 }
 
 .brand-mark img {
@@ -599,24 +691,17 @@ main {
   filter: blur(2px);
 }
 
-.hero-video,
 .hero-overlay {
   position: absolute;
   inset: 0;
 }
 
-.hero-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.8) brightness(0.5);
-}
-
 .hero-overlay {
   background:
-    linear-gradient(180deg, rgba(255, 238, 192, 0.1), rgba(7, 33, 52, 0.45) 50%, rgba(2, 10, 17, 0.92)),
+    linear-gradient(180deg, rgba(255, 238, 192, 0.1), rgba(7, 33, 52, 0.38) 46%, rgba(2, 10, 17, 0.9)),
     radial-gradient(circle at 50% 0%, rgba(255, 249, 226, 0.18), transparent 24%),
-    radial-gradient(circle at 75% 20%, rgba(105, 212, 255, 0.14), transparent 24%);
+    radial-gradient(circle at 75% 20%, rgba(105, 212, 255, 0.14), transparent 24%),
+    linear-gradient(135deg, rgba(11, 55, 82, 0.26), rgba(2, 14, 22, 0.08));
 }
 
 .hero-content {
@@ -905,19 +990,7 @@ p {
 }
 
 .sign-up-section::after {
-  content: "";
-  position: absolute;
-  left: -5vw;
-  right: -5vw;
-  bottom: 6px;
-  height: 150px;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 18% 70%, rgba(110, 196, 208, 0.08), transparent 22%),
-    radial-gradient(circle at 74% 56%, rgba(140, 223, 201, 0.06), transparent 18%),
-    linear-gradient(180deg, rgba(6, 20, 30, 0), rgba(5, 18, 28, 0.14) 38%, rgba(7, 18, 24, 0.42) 100%);
-  filter: blur(6px);
-  opacity: 0.9;
+  content: none;
 }
 
 .sign-up-section .cta-panel {
@@ -926,16 +999,7 @@ p {
 }
 
 .sign-up-section .cta-panel::after {
-  content: "";
-  position: absolute;
-  inset: auto -10% -35% auto;
-  width: 220px;
-  height: 220px;
-  background:
-    radial-gradient(circle at center, rgba(146, 255, 213, 0.18), transparent 44%),
-    radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.08), transparent 58%);
-  transform: rotate(-12deg);
-  pointer-events: none;
+  content: none;
 }
 
 .committee-grid {
@@ -1132,7 +1196,7 @@ p {
 
 .contact-section {
   position: relative;
-  padding-bottom: 280px;
+  padding-bottom: 320px;
 }
 
 .contact-section > :not(.ocean-floor) {
@@ -1142,10 +1206,11 @@ p {
 
 .ocean-floor {
   position: absolute;
-  left: -5vw;
-  right: -5vw;
-  bottom: -28px;
-  height: 300px;
+  left: 50%;
+  bottom: 0;
+  width: 100vw;
+  height: 340px;
+  transform: translateX(-50%);
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
@@ -1154,7 +1219,7 @@ p {
 .ocean-floor::before {
   content: "";
   position: absolute;
-  inset: 34px 0 62px;
+  inset: 12px 0 0;
   background:
     radial-gradient(ellipse at 10% 100%, rgba(21, 54, 53, 0.95) 0 22%, transparent 23%),
     radial-gradient(ellipse at 28% 90%, rgba(24, 63, 60, 0.92) 0 18%, transparent 19%),
@@ -1170,7 +1235,7 @@ p {
   content: "";
   position: absolute;
   inset: auto -2% 0;
-  height: 176px;
+  height: 220px;
   background:
     radial-gradient(ellipse at 6% 12%, rgba(176, 161, 110, 0.84) 0 17%, transparent 18%),
     radial-gradient(ellipse at 22% 24%, rgba(154, 141, 96, 0.94) 0 18%, transparent 19%),
@@ -1416,6 +1481,42 @@ p {
   }
 }
 
+@keyframes brass-fish-swim {
+  0% {
+    transform: translateX(0) translateY(0.4vh) scaleX(-1);
+  }
+
+  50% {
+    transform: translateX(-124vw) translateY(-1vh) scaleX(-1);
+  }
+
+  50.01% {
+    transform: translateX(-124vw) translateY(-1vh) scaleX(1);
+  }
+
+  100% {
+    transform: translateX(0) translateY(0.4vh) scaleX(1);
+  }
+}
+
+@keyframes orange-fish-swim {
+  0% {
+    transform: translateX(0) translateY(0.2vh) scaleX(-1);
+  }
+
+  48% {
+    transform: translateX(118vw) translateY(-0.9vh) scaleX(-1);
+  }
+
+  50% {
+    transform: translateX(118vw) translateY(-0.9vh) scaleX(1);
+  }
+
+  100% {
+    transform: translateX(0) translateY(0.2vh) scaleX(1);
+  }
+}
+
 @keyframes kelp-sway {
   0%,
   100% {
@@ -1430,6 +1531,11 @@ p {
 @media (max-width: 980px) {
   .depth-gauge {
     display: none;
+  }
+
+  .diver-overlay {
+    right: 1vw;
+    width: clamp(88px, 14vw, 136px);
   }
 
   .site-header {
@@ -1475,12 +1581,22 @@ p {
     top: 48vh;
   }
 
+  .fish-brass {
+    width: clamp(70px, 13vw, 110px);
+    top: 62vh;
+  }
+
+  .fish-orange {
+    width: clamp(60px, 11vw, 96px);
+    top: 34vh;
+  }
+
   .contact-section {
-    padding-bottom: 244px;
+    padding-bottom: 280px;
   }
 
   .ocean-floor {
-    height: 256px;
+    height: 300px;
   }
 
   .reef-center,
@@ -1498,8 +1614,30 @@ p {
 }
 
 @media (max-width: 640px) {
+  .ocean-scene {
+    background:
+      linear-gradient(
+        180deg,
+        #e8f8ff 0%,
+        #d5f2ff 10%,
+        #b8e8ff 20%,
+        #8bd9f7 31%,
+        #68c7ea 40%,
+        #5fbde1 calc(20.2vh + 188px),
+        #45a8d3 calc(20.2vh + 200px),
+        rgba(32, 131, 182, 0.55) calc(20.2vh + 240px),
+        rgba(11, 74, 113, 0) calc(20.2vh + 420px)
+      );
+  }
+
   .site-shell {
     width: min(calc(100% - 18px), 1320px);
+  }
+
+  .diver-overlay {
+    top: calc(38vh + (var(--diver-y-progress) * 32vh));
+    right: -10px;
+    width: 82px;
   }
 
   .site-header {
@@ -1521,7 +1659,7 @@ p {
   }
 
   .sun-orb {
-    top: 7vh;
+    top: calc(14vh - 100px);
     width: clamp(132px, 34vw, 190px);
   }
 
@@ -1531,26 +1669,31 @@ p {
   }
 
   .sun-rays {
-    opacity: 0.55;
+    opacity: calc(0.55 * var(--ray-visibility));
   }
 
   .distant-land {
-    top: 10vh;
+    top: calc(17vh + 200px);
     height: 4.8vh;
   }
 
   .surface-line {
-    top: 11.5vh;
+    top: calc(20.2vh + 200px);
   }
 
   .wave-back {
-    top: 10.6vh;
+    top: calc(19.1vh + 200px);
     height: 3.2vh;
   }
 
   .wave-front {
-    top: 11.3vh;
+    top: calc(19.9vh + 200px);
     height: 4vh;
+  }
+
+  .bubble-field,
+  .bubble-stream {
+    inset: calc(19.4vh + 200px) 0 0;
   }
 
   .shark {
@@ -1566,18 +1709,29 @@ p {
     opacity: 0.18;
   }
 
+  .fish-brass {
+    width: 66px;
+    top: 64vh;
+    opacity: 0.28;
+  }
+
+  .fish-orange {
+    width: 56px;
+    top: 36vh;
+    opacity: 0.24;
+  }
+
   .contact-section {
-    padding-bottom: 218px;
+    padding-bottom: 252px;
   }
 
   .ocean-floor {
-    left: -8vw;
-    right: -8vw;
-    height: 224px;
+    width: 100vw;
+    height: 260px;
   }
 
   .ocean-floor::after {
-    height: 144px;
+    height: 176px;
   }
 
   .reef-right,
@@ -1613,6 +1767,18 @@ p {
 
   .fish-shark {
     animation: none;
+  }
+
+  .fish-brass {
+    animation: none;
+  }
+
+  .fish-orange {
+    animation: none;
+  }
+
+  .diver-overlay {
+    transition: none;
   }
 
   .scroll-bubble {
