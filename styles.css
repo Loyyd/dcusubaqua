@@ -29,18 +29,20 @@ body {
   font-family: "Plus Jakarta Sans", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at 50% -5%, rgba(255, 223, 158, 0.52), transparent 18%),
-    radial-gradient(circle at 50% 4%, rgba(173, 232, 255, 0.28), transparent 26%),
+    radial-gradient(circle at 52% 8%, rgba(255, 213, 120, 0.9), transparent 12%),
+    radial-gradient(circle at 48% 12%, rgba(255, 247, 205, 0.62), transparent 18%),
     linear-gradient(
       180deg,
-      #7fd7f7 0%,
-      #4cb8d9 8%,
-      #1583ab 18%,
-      #0d5f88 32%,
-      #093f60 48%,
-      #072a44 64%,
-      #041b2f 78%,
-      #02111d 90%,
+      #e6f8ff 0%,
+      #bdeeff 8%,
+      #8bdfff 15%,
+      #63c9f1 20%,
+      #31a7db 24%,
+      #1283b8 31%,
+      #0d5f88 44%,
+      #093f60 60%,
+      #072a44 76%,
+      #041b2f 90%,
       #02060c 100%
     );
   min-height: 100vh;
@@ -55,10 +57,8 @@ body::before {
   background-image:
     radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.18), transparent 0.4rem),
     radial-gradient(circle at 78% 26%, rgba(255, 255, 255, 0.12), transparent 0.35rem),
-    radial-gradient(circle at 62% 44%, rgba(255, 255, 255, 0.08), transparent 0.28rem),
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-  background-size: auto, auto, auto, 140px 140px, 140px 140px;
+    radial-gradient(circle at 62% 44%, rgba(255, 255, 255, 0.08), transparent 0.28rem);
+  background-size: auto, auto, auto;
   opacity: 0.55;
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.95), transparent 92%);
 }
@@ -69,8 +69,8 @@ body::after {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% 8%, rgba(255, 248, 219, 0.4), transparent 18%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 38%),
+    radial-gradient(circle at 50% 8%, rgba(255, 196, 97, 0.44), transparent 18%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 24%),
     linear-gradient(180deg, transparent 64%, rgba(1, 8, 16, 0.38) 82%, rgba(1, 4, 8, 0.72) 100%);
   opacity: 0.85;
 }
@@ -97,11 +97,12 @@ img {
   position: fixed;
   top: 50%;
   right: -134px;
-  z-index: 12;
+  z-index: 0;
   width: 268px;
   height: 268px;
   transform: translateY(-50%);
   pointer-events: none;
+  opacity: 0.9;
 }
 
 .depth-gauge-shell {
@@ -247,33 +248,114 @@ img {
   overflow: hidden;
 }
 
-.surface-glow {
+.sky-haze {
   position: absolute;
-  top: -12vh;
+  inset: 0 0 auto;
+  height: 28vh;
+  background:
+    linear-gradient(180deg, rgba(245, 253, 255, 0.7), rgba(140, 223, 255, 0.18) 60%, transparent 100%),
+    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.24), transparent 18%),
+    radial-gradient(circle at 78% 14%, rgba(255, 241, 217, 0.22), transparent 16%);
+}
+
+.sun-orb {
+  position: absolute;
+  top: 5vh;
   left: 50%;
-  width: min(1200px, 120vw);
-  height: 36vh;
+  width: clamp(150px, 19vw, 260px);
+  aspect-ratio: 1;
+  border-radius: 50%;
   transform: translateX(-50%);
   background:
-    radial-gradient(circle at 50% 55%, rgba(255, 244, 192, 0.5), transparent 28%),
-    radial-gradient(circle at 50% 72%, rgba(166, 229, 255, 0.32), transparent 42%);
-  filter: blur(18px);
+    radial-gradient(circle at 50% 50%, rgba(255, 249, 214, 0.98) 0 20%, rgba(255, 214, 110, 0.94) 36%, rgba(255, 150, 68, 0.58) 58%, transparent 76%);
+  box-shadow:
+    0 0 46px rgba(255, 196, 83, 0.42),
+    0 0 120px rgba(255, 153, 78, 0.24);
+  opacity: 0.95;
+}
+
+.surface-glow {
+  position: absolute;
+  top: 12vh;
+  left: 50%;
+  width: min(1400px, 150vw);
+  height: 42vh;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 222, 138, 0.16), transparent 20%),
+    radial-gradient(circle at 50% 40%, rgba(170, 235, 255, 0.3), transparent 34%),
+    radial-gradient(circle at 50% 68%, rgba(49, 167, 219, 0.2), transparent 52%);
+  filter: blur(26px);
+}
+
+.distant-land {
+  position: absolute;
+  left: -6vw;
+  right: -6vw;
+  top: 9.6vh;
+  height: 6.6vh;
+  background: linear-gradient(180deg, rgba(48, 84, 70, 0.72), rgba(12, 36, 46, 0.88));
+  clip-path: polygon(0 100%, 0 68%, 10% 60%, 18% 52%, 29% 58%, 40% 46%, 53% 56%, 67% 40%, 79% 52%, 90% 44%, 100% 62%, 100% 100%);
+  opacity: 0.42;
+  filter: blur(1.2px);
+}
+
+.surface-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 11.1vh;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(255, 248, 205, 0.92) 18%, rgba(158, 241, 255, 0.88) 50%, rgba(255, 244, 194, 0.92) 82%, transparent);
+  opacity: 0.74;
+  filter: blur(0.3px);
+}
+
+.surface-wave {
+  position: absolute;
+  left: -10vw;
+  width: 120vw;
+  background-repeat: repeat-x;
+  background-size: 320px 100%;
+  opacity: 0.64;
+}
+
+.wave-back {
+  top: 10vh;
+  height: 3.8vh;
+  background-image:
+    radial-gradient(55% 120% at 50% 120%, rgba(246, 253, 255, 0.85) 0 44%, transparent 46%),
+    radial-gradient(55% 120% at 0% 120%, rgba(246, 253, 255, 0.54) 0 36%, transparent 38%),
+    linear-gradient(180deg, rgba(111, 214, 241, 0.44), rgba(21, 111, 153, 0.3));
+  animation: surface-drift 18s linear infinite;
+}
+
+.wave-front {
+  top: 10.9vh;
+  height: 4.8vh;
+  background-image:
+    radial-gradient(60% 120% at 50% 120%, rgba(255, 255, 255, 0.9) 0 40%, transparent 42%),
+    radial-gradient(60% 120% at 8% 120%, rgba(192, 247, 255, 0.76) 0 32%, transparent 34%),
+    linear-gradient(180deg, rgba(73, 196, 235, 0.82), rgba(18, 122, 167, 0.52));
+  filter: drop-shadow(0 12px 18px rgba(5, 53, 84, 0.22));
+  animation: surface-drift 12s linear infinite reverse;
 }
 
 .sun-rays {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(110deg, transparent 0 36%, rgba(198, 239, 255, 0.11) 40%, transparent 47%),
-    linear-gradient(100deg, transparent 0 52%, rgba(220, 248, 255, 0.08) 57%, transparent 64%),
-    linear-gradient(88deg, transparent 0 68%, rgba(216, 244, 255, 0.06) 73%, transparent 80%);
-  transform: translateY(-6%);
-  opacity: 0.8;
+    linear-gradient(109deg, transparent 0 39%, rgba(255, 239, 166, 0.18) 43%, transparent 49%),
+    linear-gradient(98deg, transparent 0 49%, rgba(255, 227, 137, 0.13) 55%, transparent 62%),
+    linear-gradient(86deg, transparent 0 64%, rgba(212, 247, 255, 0.08) 71%, transparent 78%);
+  transform: translateY(-3%);
+  opacity: 0.9;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0 58%, rgba(0, 0, 0, 0.4) 72%, transparent 100%);
 }
 
 .bubble-field {
   position: absolute;
-  inset: 0;
+  inset: 13vh 0 0;
   background-image:
     radial-gradient(circle at 12% 82%, rgba(255, 255, 255, 0.1), transparent 0.24rem),
     radial-gradient(circle at 24% 70%, rgba(255, 255, 255, 0.08), transparent 0.32rem),
@@ -286,7 +368,7 @@ img {
 
 .bubble-stream {
   position: absolute;
-  inset: 0;
+  inset: 13vh 0 0;
   pointer-events: none;
   overflow: hidden;
 }
@@ -686,11 +768,15 @@ p {
 .section::before {
   content: "";
   position: absolute;
-  inset: 18px -2vw auto;
-  height: 180px;
+  top: -36px;
+  left: 50%;
+  width: 120vw;
+  height: 260px;
   pointer-events: none;
   background: radial-gradient(circle at center, rgba(121, 216, 255, 0.08), transparent 62%);
-  opacity: 0.65;
+  transform: translateX(-50%);
+  filter: blur(18px);
+  opacity: 0.5;
 }
 
 .depth-surface::before,
@@ -858,24 +944,12 @@ p {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   padding: 8px max(16px, calc((100vw - var(--max-width)) / 2 + 16px)) 20px;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
-  scroll-snap-type: x proximity;
+  scroll-behavior: auto;
   scrollbar-width: none;
-  cursor: grab;
-  touch-action: pan-y pinch-zoom;
-}
-
-.committee-grid::-webkit-scrollbar {
-  display: none;
-}
-
-.committee-grid.is-dragging {
-  cursor: grabbing;
-  scroll-snap-type: none;
-  user-select: none;
 }
 
 .committee-card {
@@ -885,14 +959,13 @@ p {
   border-radius: var(--radius-lg);
   background: var(--panel-strong);
   box-shadow: var(--shadow);
-  scroll-snap-align: start;
 }
 
 .committee-photo {
   position: relative;
-  width: calc(100% - 32px);
-  aspect-ratio: 1 / 1.08;
-  margin: 16px auto 0;
+  width: calc(100% - 52px);
+  aspect-ratio: 1 / 1;
+  margin: 20px auto 0;
   border-radius: 20px;
   background:
     radial-gradient(circle at 25% 20%, rgba(105, 212, 255, 0.28), transparent 24%),
@@ -940,17 +1013,6 @@ p {
 
 .committee-star:nth-child(3) {
   transform: none;
-}
-
-.committee-fallback {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-family: "Outfit", sans-serif;
-  font-size: 3rem;
-  font-weight: 700;
-  letter-spacing: -0.04em;
 }
 
 .committee-body {
@@ -1264,6 +1326,16 @@ p {
   }
 }
 
+@keyframes surface-drift {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-320px);
+  }
+}
+
 @keyframes shark-swim-a {
   0% {
     transform: translateX(-18vw) scaleX(1);
@@ -1448,13 +1520,37 @@ p {
     padding: 22px;
   }
 
+  .sun-orb {
+    top: 7vh;
+    width: clamp(132px, 34vw, 190px);
+  }
+
   .surface-glow {
-    width: 150vw;
-    height: 28vh;
+    width: 170vw;
+    height: 36vh;
   }
 
   .sun-rays {
-    opacity: 0.45;
+    opacity: 0.55;
+  }
+
+  .distant-land {
+    top: 10vh;
+    height: 4.8vh;
+  }
+
+  .surface-line {
+    top: 11.5vh;
+  }
+
+  .wave-back {
+    top: 10.6vh;
+    height: 3.2vh;
+  }
+
+  .wave-front {
+    top: 11.3vh;
+    height: 4vh;
   }
 
   .shark {
@@ -1508,6 +1604,7 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .surface-wave,
   .bubble-field,
   .shark,
   .seagrass {

@@ -64,14 +64,6 @@ const depthGaugeTicks = document.querySelector("#depth-gauge-ticks");
 const depthGaugeValue = document.querySelector("#depth-gauge-value");
 const bubbleStream = document.querySelector("#bubble-stream");
 
-const initialsFor = (name) =>
-  name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? "")
-    .join("");
-
 const randomStarCount = () => Math.floor(Math.random() * 3) + 1;
 
 const committeeLoopCopies = 3;
@@ -80,7 +72,6 @@ const repeatedCommitteeMembers = Array.from({ length: committeeLoopCopies }, () 
 const renderCommittee = () => {
   if (!committeeGrid) return;
 
-  committeeGrid.setAttribute("tabindex", "0");
   committeeGrid.setAttribute("aria-label", "Committee carousel");
 
   committeeGrid.innerHTML = repeatedCommitteeMembers
@@ -97,7 +88,6 @@ const renderCommittee = () => {
               ).join("")}
             </div>
             <img class="committee-headshot" src="${member.image}" alt="${member.name} headshot" loading="lazy" />
-            <div class="committee-fallback">${initialsFor(member.name)}</div>
           </div>
           <div class="committee-body">
             <p class="committee-role">${member.role}</p>
@@ -110,11 +100,6 @@ const renderCommittee = () => {
     .join("");
 
   committeeGrid.querySelectorAll(".committee-headshot").forEach((image) => {
-    image.addEventListener("load", () => {
-      const fallback = image.nextElementSibling;
-      if (fallback) fallback.hidden = true;
-    });
-
     image.addEventListener("error", () => {
       image.hidden = true;
     });
@@ -124,16 +109,9 @@ const renderCommittee = () => {
 const setupCommitteeCarousel = () => {
   if (!committeeGrid) return;
 
-  let direction = 1;
   let animationFrame = null;
-  let autoScrollEnabled = true;
-  let resumeTimeout = null;
-  let isPointerDown = false;
-  let activePointerId = null;
-  let dragStartX = 0;
-  let startScrollLeft = 0;
-  let pointerTravelX = 0;
-  const speed = 0.45;
+  let autoScrollRemainder = 0;
+  const speed = 0.28;
 
   const getLoopWidth = () => committeeGrid.scrollWidth / committeeLoopCopies;
 
@@ -148,23 +126,18 @@ const setupCommitteeCarousel = () => {
     }
   };
 
-  const stopAutoScroll = () => {
-    autoScrollEnabled = false;
-    if (resumeTimeout) window.clearTimeout(resumeTimeout);
-  };
-
-  const scheduleResume = () => {
-    if (resumeTimeout) window.clearTimeout(resumeTimeout);
-    resumeTimeout = window.setTimeout(() => {
-      autoScrollEnabled = true;
-    }, 1800);
-  };
-
   const tick = () => {
     normalizeScrollPosition();
 
-    if (autoScrollEnabled && committeeGrid.scrollWidth > committeeGrid.clientWidth) {
-      committeeGrid.scrollLeft += speed * direction;
+    if (committeeGrid.scrollWidth > committeeGrid.clientWidth) {
+      autoScrollRemainder += speed;
+      const moveBy =
+        autoScrollRemainder > 0 ? Math.floor(autoScrollRemainder) : Math.ceil(autoScrollRemainder);
+
+      if (moveBy !== 0) {
+        committeeGrid.scrollLeft += moveBy;
+        autoScrollRemainder -= moveBy;
+      }
     }
 
     animationFrame = window.requestAnimationFrame(tick);
@@ -175,78 +148,6 @@ const setupCommitteeCarousel = () => {
     if (!loopWidth) return;
     committeeGrid.scrollLeft = loopWidth;
   };
-
-  committeeGrid.addEventListener(
-    "wheel",
-    (event) => {
-      const horizontalIntent = event.shiftKey || Math.abs(event.deltaX) > 0.5;
-      if (!horizontalIntent) return;
-
-      stopAutoScroll();
-      event.preventDefault();
-      const delta = Math.abs(event.deltaX) > 0.5 ? event.deltaX : event.deltaY;
-      committeeGrid.scrollLeft += delta;
-      direction = delta >= 0 ? 1 : -1;
-      normalizeScrollPosition();
-      scheduleResume();
-    },
-    { passive: false }
-  );
-
-  committeeGrid.addEventListener("pointerdown", (event) => {
-    if (event.button !== 0) return;
-
-    isPointerDown = true;
-    activePointerId = event.pointerId;
-    dragStartX = event.clientX;
-    startScrollLeft = committeeGrid.scrollLeft;
-    pointerTravelX = 0;
-    stopAutoScroll();
-    committeeGrid.classList.add("is-dragging");
-    committeeGrid.setPointerCapture(event.pointerId);
-  });
-
-  committeeGrid.addEventListener("pointermove", (event) => {
-    if (!isPointerDown || event.pointerId !== activePointerId) return;
-
-    event.preventDefault();
-    const deltaX = event.clientX - dragStartX;
-    pointerTravelX = deltaX;
-    committeeGrid.scrollLeft = startScrollLeft - deltaX;
-    normalizeScrollPosition();
-  });
-
-  const endDrag = (event) => {
-    if (!isPointerDown || (event && event.pointerId !== activePointerId)) return;
-
-    isPointerDown = false;
-    if (activePointerId !== null && committeeGrid.hasPointerCapture(activePointerId)) {
-      committeeGrid.releasePointerCapture(activePointerId);
-    }
-    activePointerId = null;
-    committeeGrid.classList.remove("is-dragging");
-    if (Math.abs(pointerTravelX) > 4) {
-      direction = pointerTravelX < 0 ? 1 : -1;
-    }
-    scheduleResume();
-  };
-
-  committeeGrid.addEventListener("pointerup", endDrag);
-  committeeGrid.addEventListener("pointercancel", endDrag);
-  committeeGrid.addEventListener("dragstart", (event) => event.preventDefault());
-  committeeGrid.addEventListener("mouseenter", stopAutoScroll);
-  committeeGrid.addEventListener("mouseleave", scheduleResume);
-  committeeGrid.addEventListener("focusin", stopAutoScroll);
-  committeeGrid.addEventListener("focusout", scheduleResume);
-  committeeGrid.addEventListener("touchstart", stopAutoScroll, { passive: true });
-  committeeGrid.addEventListener(
-    "touchmove",
-    () => {
-      normalizeScrollPosition();
-    },
-    { passive: true }
-  );
-  committeeGrid.addEventListener("touchend", scheduleResume, { passive: true });
   window.addEventListener("resize", centerCarousel);
 
   centerCarousel();
