@@ -31,6 +31,9 @@
       </div>
     </aside>
     <div class="swim-scene" aria-hidden="true">
+      <div class="bubble-field"></div>
+      <div class="bubble-stream bubble-stream-constant" id="constant-bubble-stream"></div>
+      <div class="bubble-stream bubble-stream-scroll" id="bubble-stream"></div>
       <img class="fish fish-shark" src="assets/scene/shark.png" alt="" />
       <img class="fish fish-brass" src="assets/scene/brass.png" alt="" />
       <img class="fish fish-orange" src="assets/scene/orange-fish.png" alt="" />
@@ -192,20 +195,38 @@
           </div>
         </section>
 
+        <section class="section depth-deep committee-section" id="committee">
+          <div class="section-heading">
+            <p class="eyebrow">Committee 2025-2026</p>
+            <h2>The people running the season.</h2>
+          </div>
+          <div class="committee-grid" id="committee-grid"></div>
+        </section>
+
         <section class="section info-band depth-mid" id="calendar">
           <div class="section-heading">
             <p class="eyebrow">Calendar</p>
             <h2>Training nights, weekend dives, and club events in one place.</h2>
           </div>
-          <div class="panel info-card">
-            <p>
-              Embed your live calendar here or link directly to the club schedule once it is ready. This
-              section is designed to hold a Google Calendar, training rota, or a compact events feed without
-              changing the rest of the layout.
-            </p>
-            <a class="text-link" href="https://www.dcusubaquaclub.com/home" target="_blank" rel="noreferrer">
-              View the current club site for schedule details
-            </a>
+          <div class="calendar-layout">
+            <article class="panel info-card">
+              <p>
+                See training nights, weekend dives, and upcoming club events without leaving the site. The
+                live calendar beside this panel is embedded directly from the current DCU Sub-Aqua Club
+                calendar page.
+              </p>
+              <a class="text-link" href="https://www.dcusubaquaclub.com/calendar" target="_blank" rel="noreferrer">
+                Open the full calendar page
+              </a>
+            </article>
+            <div class="panel calendar-embed-card">
+              <iframe
+                class="calendar-embed"
+                src="https://www.google.com/calendar/embed?color=%2392e1c0&embed_style=WyJhdDplbWI6c3QiLCIjZTBlMGUwIiwiI2VkZWRlZCIsIiM0MTg0ZjMiLCJyb2JvdG8iLCIjNjM2MzYzIiw1MDAsIiNmZmYiXQo&eopt=2&mode=month&showCalendars=1&showPrint=0&showTitle=0&showTz=1&src=4f1adbd5d45ae0b16334c31351d7c284238a7241f1e8aae44dcfd33daa49e986@group.calendar.google.com"
+                title="DCU Sub-Aqua Club Google Calendar"
+                loading="lazy"
+              ></iframe>
+            </div>
           </div>
         </section>
 
@@ -214,21 +235,25 @@
             <p class="eyebrow">Dive Map</p>
             <h2>From pool sessions to coastal weekends.</h2>
           </div>
-          <div class="panel info-card">
-            <p>
-              This area can host a custom Ireland dive map, trip archive, or featured sites. The current
-              version uses a styled content panel so we can swap in an iframe or bespoke interactive map later
-              without redesigning the page.
-            </p>
+          <div class="calendar-layout">
+            <article class="panel info-card">
+              <p>
+                Explore some of the club’s favourite dive sites around Ireland directly from the live map.
+                It’s the same embedded map currently used on the DCU Sub-Aqua Club dive map page.
+              </p>
+              <a class="text-link" href="https://www.dcusubaquaclub.com/club-info/dive-map" target="_blank" rel="noreferrer">
+                Open the full dive map page
+              </a>
+            </article>
+            <div class="panel map-embed-card">
+              <iframe
+                class="map-embed"
+                src="https://www.google.com/maps/d/embed?mid=1oQCF7Q-XolJqMvRHibrGAma2ssmPlQjU"
+                title="DCU Sub-Aqua Club Dive Map"
+                loading="lazy"
+              ></iframe>
+            </div>
           </div>
-        </section>
-
-        <section class="section depth-deep committee-section" id="committee">
-          <div class="section-heading">
-            <p class="eyebrow">Committee 2025-2026</p>
-            <h2>The people running the season.</h2>
-          </div>
-          <div class="committee-grid" id="committee-grid"></div>
         </section>
 
         <section class="section faq-section depth-abyss" id="faq">

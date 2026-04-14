@@ -33,8 +33,8 @@ body {
   font-family: "Plus Jakarta Sans", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at 52% 8%, rgba(255, 213, 120, 0.9), transparent 12%),
-    radial-gradient(circle at 48% 12%, rgba(255, 247, 205, 0.62), transparent 18%),
+    radial-gradient(circle at 52% 8%, rgba(244, 220, 170, 0.44), transparent 12%),
+    radial-gradient(circle at 48% 12%, rgba(242, 245, 232, 0.32), transparent 18%),
     linear-gradient(
       180deg,
       #e6f8ff 0%,
@@ -76,14 +76,14 @@ body::after {
     linear-gradient(
       108deg,
       transparent 0 38%,
-      rgba(255, 242, 176, calc(0.16 * var(--ray-visibility))) 43%,
+      rgba(241, 233, 198, calc(0.1 * var(--ray-visibility))) 43%,
       rgba(201, 241, 255, calc(0.08 * var(--ray-visibility))) 47%,
       transparent 54%
     ),
     linear-gradient(
       97deg,
       transparent 0 48%,
-      rgba(255, 232, 146, calc(0.12 * var(--ray-visibility))) 53%,
+      rgba(235, 227, 194, calc(0.07 * var(--ray-visibility))) 53%,
       rgba(214, 247, 255, calc(0.07 * var(--ray-visibility))) 57%,
       transparent 64%
     ),
@@ -93,8 +93,8 @@ body::after {
       rgba(212, 247, 255, calc(0.08 * var(--ray-visibility))) 68%,
       transparent 76%
     ),
-    radial-gradient(circle at 50% 8%, rgba(255, 196, 97, calc(0.44 * var(--ray-visibility))), transparent 18%),
-    linear-gradient(180deg, rgba(255, 255, 255, calc(0.18 * var(--ray-visibility))), transparent 24%),
+    radial-gradient(circle at 50% 8%, rgba(241, 214, 166, calc(0.24 * var(--ray-visibility))), transparent 18%),
+    linear-gradient(180deg, rgba(246, 250, 255, calc(0.12 * var(--ray-visibility))), transparent 24%),
     linear-gradient(
       180deg,
       rgba(2, 10, 16, calc(var(--depth-darkness) * 0.08)) 0%,
@@ -427,7 +427,7 @@ img {
 
 .bubble-field {
   position: absolute;
-  inset: calc(18.8vh + 200px) 0 0;
+  inset: 8vh 0 0;
   z-index: 1;
   background-image:
     radial-gradient(circle at 12% 82%, rgba(255, 255, 255, 0.18), transparent 0.34rem),
@@ -437,18 +437,27 @@ img {
     radial-gradient(circle at 40% 88%, rgba(255, 255, 255, 0.13), transparent 0.3rem),
     radial-gradient(circle at 58% 66%, rgba(226, 247, 255, 0.12), transparent 0.28rem),
     radial-gradient(circle at 88% 62%, rgba(218, 244, 255, 0.1), transparent 0.24rem);
-  animation: bubbles-rise 26s linear infinite;
+  animation: bubbles-rise 15s linear infinite;
   opacity: 0.95;
 }
 
 .bubble-stream {
   position: absolute;
-  inset: calc(18.8vh + 200px) 0 0;
+  inset: 8vh 0 0;
   z-index: 2;
   pointer-events: none;
-  overflow: hidden;
+  overflow: visible;
 }
 
+.bubble-stream-constant {
+  z-index: 2;
+}
+
+.bubble-stream-scroll {
+  z-index: 3;
+}
+
+.constant-bubble,
 .scroll-bubble {
   position: absolute;
   bottom: -42px;
@@ -464,7 +473,21 @@ img {
     inset 0 0 12px rgba(255, 255, 255, 0.12),
     0 0 14px rgba(166, 229, 255, 0.18);
   opacity: 0;
-  animation: scroll-bubble-rise var(--bubble-duration, 4.8s) linear forwards;
+}
+
+.constant-bubble {
+  border-color: rgba(231, 248, 255, 0.36);
+  background:
+    radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.56), transparent 28%),
+    radial-gradient(circle at 50% 50%, rgba(186, 232, 255, 0.14), rgba(186, 232, 255, 0.03) 68%, transparent 74%);
+  box-shadow:
+    inset 0 0 10px rgba(255, 255, 255, 0.08),
+    0 0 10px rgba(166, 229, 255, 0.12);
+  animation: constant-bubble-rise var(--bubble-duration, 7.4s) linear forwards;
+}
+
+.scroll-bubble {
+  animation: scroll-bubble-rise var(--bubble-duration, 3.2s) linear forwards;
 }
 
 .fish {
@@ -909,6 +932,13 @@ p {
   gap: 18px;
 }
 
+.calendar-layout {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(280px, 0.92fr) minmax(320px, 1.28fr);
+  align-items: stretch;
+}
+
 .intro-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -978,6 +1008,48 @@ p {
 .info-card,
 .cta-panel {
   max-width: 880px;
+}
+
+.calendar-embed-card {
+  padding: 0;
+  overflow: hidden;
+  min-height: 460px;
+  background:
+    linear-gradient(180deg, rgba(5, 16, 26, 0.98), rgba(2, 8, 15, 1)),
+    rgba(4, 12, 20, 0.98);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+.map-embed-card {
+  padding: 0;
+  overflow: hidden;
+  min-height: 460px;
+  background: rgba(5, 16, 26, 0.96);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+.calendar-embed {
+  display: block;
+  width: 100%;
+  min-height: 460px;
+  height: 100%;
+  border: 0;
+  background: rgba(5, 16, 26, 0.92);
+  filter: invert(0.92) hue-rotate(180deg) saturate(0.82) brightness(0.9) contrast(0.94);
+}
+
+.map-embed {
+  display: block;
+  width: 100%;
+  min-height: 460px;
+  height: 100%;
+  border: 0;
+  background: rgba(5, 16, 26, 0.92);
+  filter: invert(0.92) hue-rotate(180deg) saturate(0.78) brightness(0.86) contrast(0.96);
 }
 
 .text-link {
@@ -1386,7 +1458,23 @@ p {
   }
 
   100% {
-    transform: translate3d(var(--bubble-drift, 0px), -108vh, 0) scale(1.08);
+    transform: translate3d(var(--bubble-drift, 0px), -142vh, 0) scale(1.14);
+    opacity: 0;
+  }
+}
+
+@keyframes constant-bubble-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.68);
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 0.58;
+  }
+
+  100% {
+    transform: translate3d(var(--bubble-drift, 0px), -118vh, 0) scale(0.98);
     opacity: 0;
   }
 }
@@ -1606,6 +1694,7 @@ p {
 
   .hero-stats,
   .intro-grid,
+  .calendar-layout,
   .split-grid,
   .faq-grid,
   .contact-grid {
@@ -1693,7 +1782,7 @@ p {
 
   .bubble-field,
   .bubble-stream {
-    inset: calc(19.4vh + 200px) 0 0;
+    inset: 10vh 0 0;
   }
 
   .shark {
@@ -1754,6 +1843,13 @@ p {
   .panel,
   .cta-panel {
     padding: 22px;
+  }
+
+  .calendar-embed-card,
+  .calendar-embed,
+  .map-embed-card,
+  .map-embed {
+    min-height: 420px;
   }
 }
 

@@ -62,6 +62,7 @@ const siteHeader = document.querySelector(".site-header");
 const depthGauge = document.querySelector(".depth-gauge");
 const depthGaugeTicks = document.querySelector("#depth-gauge-ticks");
 const depthGaugeValue = document.querySelector("#depth-gauge-value");
+const constantBubbleStream = document.querySelector("#constant-bubble-stream");
 const bubbleStream = document.querySelector("#bubble-stream");
 const diverOverlay = document.querySelector(".diver-overlay");
 
@@ -262,17 +263,47 @@ const setupDepthGauge = () => {
 };
 
 const setupScrollBubbles = () => {
-  if (!bubbleStream) return;
+  if (!bubbleStream && !constantBubbleStream) return;
 
   let lastScrollY = window.scrollY;
   let lastSpawnTime = 0;
 
-  const spawnBubble = (strength = 1) => {
+  const spawnConstantBubble = () => {
+    if (!constantBubbleStream) return;
+
     const bubble = document.createElement("span");
-    const size = 8 + Math.random() * 18 * Math.min(strength, 1.6);
-    const duration = 3.6 + Math.random() * 2.3;
-    const drift = -40 + Math.random() * 80;
-    const startX = 10 + Math.random() * 80;
+    const size = 7 + Math.random() * 10;
+    const duration = 5.8 + Math.random() * 2.2;
+    const drift = -22 + Math.random() * 44;
+    const startX = 8 + Math.random() * 84;
+
+    bubble.className = "constant-bubble";
+    bubble.style.left = `${startX}%`;
+    bubble.style.setProperty("--bubble-size", `${size.toFixed(1)}px`);
+    bubble.style.setProperty("--bubble-duration", `${duration.toFixed(2)}s`);
+    bubble.style.setProperty("--bubble-drift", `${drift.toFixed(1)}px`);
+
+    bubble.addEventListener("animationend", () => {
+      bubble.remove();
+    });
+
+    constantBubbleStream.appendChild(bubble);
+  };
+
+  const spawnScrollBubble = (strength = 1) => {
+    if (!bubbleStream) return;
+
+    const bubble = document.createElement("span");
+    const sizeBias = Math.random();
+    const size =
+      sizeBias < 0.45
+        ? 4 + Math.random() * 7
+        : sizeBias < 0.82
+          ? 10 + Math.random() * 11
+          : 21 + Math.random() * 15 * Math.min(strength, 1.7);
+    const duration = 1.25 + Math.random() * 0.95;
+    const drift = -58 + Math.random() * 116;
+    const startX = 4 + Math.random() * 92;
 
     bubble.className = "scroll-bubble";
     bubble.style.left = `${startX}%`;
@@ -287,6 +318,16 @@ const setupScrollBubbles = () => {
     bubbleStream.appendChild(bubble);
   };
 
+  if (constantBubbleStream) {
+    for (let index = 0; index < 5; index += 1) {
+      window.setTimeout(spawnConstantBubble, index * 280);
+    }
+
+    window.setInterval(() => {
+      spawnConstantBubble();
+    }, 850);
+  }
+
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
     const delta = currentScrollY - lastScrollY;
@@ -295,14 +336,14 @@ const setupScrollBubbles = () => {
     if (delta <= 2) return;
 
     const now = performance.now();
-    if (now - lastSpawnTime < 110) return;
+    if (now - lastSpawnTime < 45) return;
 
     lastSpawnTime = now;
     const strength = Math.min(delta / 42, 1.5);
-    const burstCount = Math.max(1, Math.min(3, Math.round(strength * 1.6)));
+    const burstCount = Math.max(2, Math.min(6, Math.round(2 + strength * 3.2)));
 
     for (let index = 0; index < burstCount; index += 1) {
-      spawnBubble(strength);
+      spawnScrollBubble(strength);
     }
   };
 
