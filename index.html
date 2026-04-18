@@ -65,7 +65,7 @@
           <a href="#underwater-hockey">Underwater Hockey</a>
           <a href="#calendar">Calendar</a>
           <a href="#dive-map">Dive Map</a>
-          <a href="#sign-up">Sign Up</a>
+          <a class="nav-signup" href="#sign-up">Sign Up</a>
         </nav>
       </header>
 
@@ -106,40 +106,38 @@
             <h2>Diving, hockey, and a genuinely welcoming crew.</h2>
           </div>
           <div class="intro-grid">
-            <article class="panel">
+            <article class="panel intro-card">
+              <span class="chip">Since 2001</span>
               <h3>Who we are</h3>
               <p>
                 DCU Sub-Aqua Club has been diving since 2001 and has grown into a social, adventurous group
                 of students who train together, travel together, and spend as much time in the water as
                 possible.
               </p>
+              <p class="intro-note">Equal parts sport, training, and social chaos in the best way.</p>
             </article>
-            <article class="panel">
+            <article class="panel intro-card intro-card-emphasis">
+              <span class="chip">Training Pathway</span>
               <h3>How we train</h3>
               <p>
                 Our diving programme follows Diving Ireland and CMAS standards, with pool-based skill
                 development leading into open-water progression when members are ready.
               </p>
-              <div class="partner-logos" aria-label="Training and accreditation bodies">
-                <figure class="partner-logo-card">
-                  <img src="assets/logos/diving-ireland.jpeg" alt="Diving Ireland logo" loading="lazy" />
-                </figure>
-                <figure class="partner-logo-card">
-                  <img
-                    src="assets/logos/cmas.png"
-                    alt="CMAS World Underwater Federation logo"
-                    loading="lazy"
-                  />
-                </figure>
+              <div class="intro-points" aria-label="Training highlights">
+                <span class="intro-point">Pool-first progression</span>
+                <span class="intro-point">Qualified instruction</span>
+                <span class="intro-point">Standards-led development</span>
               </div>
             </article>
-            <article class="panel">
+            <article class="panel intro-card">
+              <span class="chip">Why It Sticks</span>
               <h3>What makes it fun</h3>
               <p>
                 There is room here for complete beginners, certified divers, and competitive underwater
                 hockey players. The club works best when everyone brings energy, curiosity, and a little
                 appetite for the unknown.
               </p>
+              <p class="intro-note">You can show up new, nervous, competitive, social, or all four at once.</p>
             </article>
           </div>
         </section>
@@ -292,55 +290,52 @@
           </div>
         </section>
 
-        <section class="section sign-up-section depth-floor" id="sign-up">
+        <section class="section sign-up-section contact-section depth-floor" id="sign-up">
+          <div id="contact"></div>
           <div class="section-heading">
-            <p class="eyebrow">Sign Up</p>
-            <h2>Ready to join the club?</h2>
-          </div>
-          <div class="cta-panel">
-            <p>
-              Membership and club registration can be handled through DCU Clubs & Socs. Use the official link
-              below to sign up, then keep an eye on club channels for session info and announcements.
-            </p>
-            <div class="hero-actions">
-              <a
-                class="button button-primary"
-                href="https://www.dcuclubsandsocs.ie/society/subaqua"
-                target="_blank"
-                rel="noreferrer"
-                >Sign Up Through DCU</a
-              >
-              <a class="button button-secondary" href="#contact">Contact the Committee</a>
-            </div>
-          </div>
-        </section>
-
-        <section class="section contact-section depth-floor" id="contact">
-          <div class="section-heading">
-            <p class="eyebrow">Contact</p>
-            <h2>Questions, collabs, or first-timer nerves? Reach out.</h2>
+            <p class="eyebrow">Join & Contact</p>
+            <h2>Ready to join the club or ask a question?</h2>
           </div>
           <div class="contact-grid">
+            <article class="cta-panel">
+              <h3>Sign up through DCU</h3>
+              <p>
+                Membership and club registration can be handled through DCU Clubs & Socs. Use the official
+                link below to sign up, then keep an eye on club channels for session info and announcements.
+              </p>
+              <div class="hero-actions">
+                <a
+                  class="button button-primary"
+                  href="https://www.dcuclubsandsocs.ie/society/subaqua"
+                  target="_blank"
+                  rel="noreferrer"
+                  >Sign Up Through DCU</a
+                >
+                <a class="button button-secondary" href="https://www.dcusubaquaclub.com/calendar" target="_blank" rel="noreferrer"
+                  >View Club Calendar</a
+                >
+              </div>
+            </article>
             <article class="panel">
               <h3>Get in touch</h3>
-              <p>Email the committee or link your preferred contact form here.</p>
+              <p>Questions, collabs, or first-timer nerves? Reach out to the committee here.</p>
               <p class="contact-detail">Example: <a class="text-link" href="mailto:subaqua@example.com">subaqua@example.com</a></p>
+              <form class="contact-form">
+                <label>
+                  Name
+                  <input type="text" name="name" placeholder="Your name" />
+                </label>
+                <label>
+                  Email
+                  <input type="email" name="email" placeholder="you@example.com" />
+                </label>
+                <label>
+                  Message
+                  <textarea name="message" rows="5" placeholder="Ask us anything"></textarea>
+                </label>
+                <button class="button button-primary" type="submit">Send Message</button>
+              </form>
             </article>
-            <form class="panel contact-form">
-              <label>
-                Name
-                <input type="text" name="name" placeholder="Your name" />
-              </label>
-              <label>
-                Email
-                <input type="email" name="email" placeholder="you@example.com" />
-              </label>
-              <label>
-                Message
-                <textarea name="message" rows="5" placeholder="Ask us anything"></textarea>
-              </label>
-              <button class="button button-primary" type="submit">Send Message</button>
-            </form>
           </div>
           <div class="ocean-floor" aria-hidden="true">
             <span class="reef reef-left"></span>
