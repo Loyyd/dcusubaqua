@@ -2,6 +2,13 @@
 
 Modern dark-theme rebuild for the DCU Sub-Aqua Club website.
 
+## GitHub Pages
+
+This repo is configured to deploy automatically to GitHub Pages with GitHub Actions.
+
+- Push to `main` to trigger a deployment.
+- The published site URL will be `https://loyyd.github.io/dcusubaqua/` unless the repository Pages settings use a custom domain.
+
 ## Local preview
 
 Open `index.html` in a browser, or serve the folder with a simple static server:
