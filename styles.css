@@ -1328,95 +1328,6 @@ p {
   z-index: 1;
 }
 
-.closing-section {
-  padding: 44px 0 96px;
-}
-
-.closing-grid {
-  display: grid;
-  gap: 18px;
-  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-  align-items: stretch;
-}
-
-.closing-feature {
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 10% 16%, rgba(146, 255, 213, 0.16), transparent 24%),
-    linear-gradient(180deg, rgba(14, 52, 62, 0.68), rgba(4, 18, 27, 0.94)),
-    var(--panel-strong);
-}
-
-.closing-feature::before {
-  content: "";
-  position: absolute;
-  inset: auto -80px -90px auto;
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(105, 212, 255, 0.2), transparent 70%);
-  filter: blur(8px);
-  pointer-events: none;
-}
-
-.closing-feature > * {
-  position: relative;
-  z-index: 1;
-}
-
-.closing-points {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 22px;
-}
-
-.closing-rail {
-  display: grid;
-  gap: 18px;
-  background:
-    linear-gradient(180deg, rgba(5, 20, 31, 0.92), rgba(2, 9, 15, 0.98)),
-    var(--panel);
-}
-
-.closing-step {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 16px;
-  align-items: start;
-  padding-bottom: 18px;
-  border-bottom: 1px solid rgba(173, 233, 255, 0.1);
-}
-
-.closing-step:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
-}
-
-.closing-step strong {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(105, 212, 255, 0.1);
-  border: 1px solid rgba(146, 255, 213, 0.12);
-  color: var(--accent-warm);
-  font-family: "Outfit", sans-serif;
-  font-size: 0.94rem;
-  letter-spacing: 0.08em;
-}
-
-.closing-step h3 {
-  margin: 0 0 8px;
-  font-size: 1.05rem;
-}
-
-.closing-step p {
-  margin: 0;
-}
-
 .ocean-floor {
   position: absolute;
   left: 50%;
@@ -1835,7 +1746,6 @@ p {
 
   .hero-stats,
   .intro-grid,
-  .closing-grid,
   .calendar-layout,
   .split-grid,
   .faq-grid,
@@ -1954,11 +1864,6 @@ p {
 
   .contact-section {
     padding-bottom: 252px;
-  }
-
-  .closing-section {
-    padding-top: 36px;
-    padding-bottom: 78px;
   }
 
   .ocean-floor {
